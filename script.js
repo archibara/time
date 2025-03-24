@@ -1,7 +1,7 @@
 const searchParams = new URLSearchParams(window.location.search);
 
 if(!searchParams.has('t')) {
-  window.location.href = '/edit';
+  window.location.href = './edit/';
 }
 
 const title = searchParams.get('title') || 'Countdown';
