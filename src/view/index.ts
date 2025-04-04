@@ -32,3 +32,9 @@ setTimeout(() => {
 }, msToNextSecond);
 
 scheduleNotification(data.endDate, data.title);
+
+
+if(!window.location.search) {
+  // navigate to /edit/ if no query params
+  window.location.href = './edit';
+}
