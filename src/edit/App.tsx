@@ -17,7 +17,7 @@ const getViewBaseUrl = (): string => {
     .slice(0, -1)
     // convert to string
     .join('/');
-  return `${url.origin}${path}`;
+  return `${url.origin}/${path}`;
 };
 
 const dateToDatetimeLocalString = (date: Date): string =>
