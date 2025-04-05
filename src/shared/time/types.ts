@@ -3,4 +3,4 @@ export type DatePars = {
   hours: number;
   minutes: number;
   seconds: number;
-}
+};

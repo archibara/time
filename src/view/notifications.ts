@@ -1,12 +1,15 @@
 const createNotification = (title: string) => {
-  new Notification(new Date().toLocaleTimeString(), {
-    body: title,
-    icon: 'icon.svg',
-    badge: 'icon.svg',
-    requireInteraction: true,
-    tag: title,
-    silent: false,
-  });
+  new Notification(
+    new Date().toLocaleTimeString(),
+    {
+      body: title,
+      icon: 'icon.svg',
+      badge: 'icon.svg',
+      requireInteraction: true,
+      tag: title,
+      silent: false,
+    }
+  );
 };
 
 const requestPermission = async () => {
@@ -27,11 +30,14 @@ export const scheduleNotification = (date: Date, title: string) => {
   if (timeToNotification <= 0) {
     return;
   }
-  setTimeout(async () => {
-    const permission = await requestPermission();
-    if (permission !== 'granted') {
-      return;
-    }
-    createNotification(title);
-  }, timeToNotification);
+  setTimeout(
+    async () => {
+      const permission = await requestPermission();
+      if (permission !== 'granted') {
+        return;
+      }
+      createNotification(title);
+    },
+    timeToNotification
+  );
 };

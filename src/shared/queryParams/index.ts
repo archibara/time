@@ -1,5 +1,5 @@
-import { pageAlias, queryParameterAlias } from './constants.ts';
-import { QueryParamsData } from './types.ts';
+import {pageAlias, queryParameterAlias} from './constants.ts';
+import {QueryParamsData} from './types.ts';
 
 const parseDate = (date: string): Date | null => {
   const maybeDate = new Date(date);
@@ -18,9 +18,12 @@ const parseDate = (date: string): Date | null => {
 
 const parseAlias = <K extends string>(value: string, keyAliases: Record<K, string[]>): K | null => {
   const entries = Object.entries(keyAliases) as [K, string[]][];
-  for (const [key, aliases] of entries) {
+  for (const [
+    key,
+    aliases,
+  ] of entries) {
     if (aliases.includes(value)) {
-      return key as K;
+      return key;
     }
   }
   return null;
@@ -29,19 +32,24 @@ const parseAlias = <K extends string>(value: string, keyAliases: Record<K, strin
 
 export const getQueryParamsData = (search = window.location.search): QueryParamsData => {
   const params = new URLSearchParams(search);
+  // 30 minutes
+  const addMs = 30 * 60 * 1000;
   const data: QueryParamsData = {
-    endDate: new Date(Date.now() + 30 * 60 * 1000),
+    endDate: new Date(Date.now() + addMs),
     title: 'Time',
     page: 'edit',
   };
 
   for (const qKey of params.keys()) {
-    const p = parseAlias(qKey, queryParameterAlias);
+    const p = parseAlias(
+      qKey,
+      queryParameterAlias
+    );
     if (p === null) continue;
-    const stringValue = params.get(qKey)!;
+    const stringValue = params.get(qKey) ?? '';
     switch (p) {
       case 'endDate': {
-        data.endDate = parseDate(stringValue) || data.endDate;
+        data.endDate = parseDate(stringValue) ?? data.endDate;
         break;
       }
       case 'title': {
@@ -49,7 +57,10 @@ export const getQueryParamsData = (search = window.location.search): QueryParams
         break;
       }
       case 'page': {
-        data.page = parseAlias(stringValue, pageAlias) || data.page;
+        data.page = parseAlias(
+          stringValue,
+          pageAlias
+        ) ?? data.page;
         break;
       }
     }

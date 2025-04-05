@@ -1,6 +1,6 @@
-import { getQueryParamsData } from '../shared/queryParams';
-import { getDateParts } from '../shared/time';
-import { scheduleNotification } from './notifications.ts';
+import {getQueryParamsData} from '../shared/queryParams';
+import {getDateParts} from '../shared/time';
+import {scheduleNotification} from './notifications.ts';
 import '../shared/styles.css';
 import './styles.css';
 
@@ -18,7 +18,7 @@ elements.title.textContent = data.title;
 document.head.title = data.title;
 
 const render = () => {
-  const { days, hours, minutes, seconds } = getDateParts(data.endDate);
+  const {days, hours, minutes, seconds} = getDateParts(data.endDate);
   elements.days.textContent = days.toString();
   elements.hours.textContent = hours.toString();
   elements.minutes.textContent = minutes.toString();
@@ -26,15 +26,24 @@ const render = () => {
 };
 
 render();
-const msToNextSecond = 1000 - Date.now() % 1000;
-setTimeout(() => {
-  setInterval(render, 1000);
-}, msToNextSecond);
+const msToNextSecond = (1000 - Date.now()) % 1000;
+setTimeout(
+  () => {
+    setInterval(
+      render,
+      1000
+    );
+  },
+  msToNextSecond
+);
 
-scheduleNotification(data.endDate, data.title);
+scheduleNotification(
+  data.endDate,
+  data.title
+);
 
 
-if(!window.location.search) {
+if (!window.location.search) {
   // navigate to /edit/ if no query params
   window.location.href = './edit';
 }
