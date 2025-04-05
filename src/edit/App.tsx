@@ -6,7 +6,7 @@ import {useDebouncedValue} from './useDebouncedValue.ts';
 const sandbox = import.meta.env.DEV
   ? undefined
   // use all restrictions in production
-  : '';
+  : 'allow-scripts';
 
 const getViewBaseUrl = (): string => {
   const url = new URL(window.location.href);
