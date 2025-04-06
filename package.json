@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "ngrok": "vite -m ngrok --port 3000 & ngrok http 3000",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

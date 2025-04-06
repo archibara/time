@@ -12,6 +12,7 @@ const App = () => {
     queryParamsData,
     setQueryParamsData,
   ] = useState(() => getQueryParamsData());
+
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const endDateString = dateToDatetimeLocalString(queryParamsData.endDate);
   const iframeSearchParams = useDebouncedValue(

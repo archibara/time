@@ -5,7 +5,7 @@
  */
 export const dateToDatetimeLocalString = (date: Date): string => {
   const timezoneOffsetInMs = date.getTimezoneOffset() * 60000;
-  const isoStringOfLocalDate = new Date(date.getTime() + timezoneOffsetInMs).toISOString();
+  const isoStringOfLocalDate = new Date(date.getTime() - timezoneOffsetInMs).toISOString();
   return isoStringOfLocalDate.slice(
     0,
     16

@@ -1,16 +1,25 @@
-import {defineConfig} from 'vite';
+import {ConfigEnv, defineConfig, loadEnv} from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
-// https://vite.dev/config/
-export default defineConfig({
-  base: './',
-  build: {
-    rollupOptions: {
-      input: {
-        edit: 'edit.html',
-        view: 'index.html',
+type ServerEnv = {
+  SERVER_ALLOWED_HOSTS: string;
+};
+
+export default (params: ConfigEnv) => {
+  const env = loadEnv(params.mode, process.cwd(), '') as unknown as ServerEnv;
+  return defineConfig({
+    base: './',
+    server: {
+      allowedHosts: Boolean(env.SERVER_ALLOWED_HOSTS) || undefined,
+    },
+    build: {
+      rollupOptions: {
+        input: {
+          edit: 'edit.html',
+          view: 'index.html',
+        },
       },
     },
-  },
-  plugins: [react()],
-});
+    plugins: [react()],
+  });
+};

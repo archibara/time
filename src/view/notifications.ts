@@ -23,20 +23,22 @@ const requestPermission = async () => {
 };
 
 export const scheduleNotification = (date: Date, title: string) => {
-  requestPermission().catch(alert);
-
   const now = new Date();
   const timeToNotification = date.getTime() - now.getTime();
   if (timeToNotification <= 0) {
     return;
   }
+  requestPermission().catch(alert);
   setTimeout(
-    async () => {
-      const permission = await requestPermission();
-      if (permission !== 'granted') {
-        return;
-      }
-      createNotification(title);
+    () => {
+      requestPermission()
+        .then((permission) => {
+          if (permission !== 'granted') {
+            return;
+          }
+          createNotification(title);
+        })
+        .catch(alert);
     },
     timeToNotification
   );
