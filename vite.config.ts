@@ -9,7 +9,7 @@ type ServerEnv = {
 export default (params: ConfigEnv) => {
   const env = loadEnv(params.mode, process.cwd(), '') as unknown as ServerEnv;
   return defineConfig({
-    base: './',
+    base: '/time',
     server: {
       allowedHosts: Boolean(env.SERVER_ALLOWED_HOSTS) || undefined,
     },
