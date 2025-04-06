@@ -36,7 +36,7 @@ const stylisticRules = {
   '@stylistic/jsx-sort-props': ['error', {callbacksLast: true,}],
 };
 export default tseslint.config(
-  {ignores: ['dist', 'vite.config.ts']},
+  {ignores: ['dist', 'dev-dist', 'vite.config.ts', 'src/server']},
   {
     extends: [
       js.configs.recommended,

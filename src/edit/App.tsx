@@ -5,7 +5,6 @@ import {useDebouncedValue} from './useDebouncedValue.ts';
 import {dateToDatetimeLocalString} from './utlis/dateToDatetimeLocalString.ts';
 import {queryParamsDataToSearchParams} from './utlis/queryParamsDataToSearchParams.ts';
 import {setSearchParams} from './utlis/setSearchParams.ts';
-import {sandbox} from './constants.ts';
 
 const App = () => {
   const [
@@ -122,12 +121,11 @@ const App = () => {
         </div>
       </div>
 
+      {/* eslint-disable-next-line react-dom/no-missing-iframe-sandbox*/}
       <iframe
         className='iframe'
         ref={iframeRef}
         rel='noopener noreferrer'
-        // eslint-disable-next-line react-dom/no-missing-iframe-sandbox
-        sandbox={sandbox}
         src={iframeSrc}
       />
     </>
