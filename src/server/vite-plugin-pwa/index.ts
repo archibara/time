@@ -31,8 +31,8 @@ export const vitePluginPwa = VitePWA({
   manifest: {
     theme_color: '#00001A',
     background_color: '#00001A',
-    scope: '/',
-    start_url: '/',
+    scope: '/time',
+    start_url: '/time',
   },
   devOptions: {
     enabled: true,
