@@ -16,6 +16,7 @@ const stylisticRules = {
   '@stylistic/indent': ['error', 2],
   '@stylistic/jsx-indent': ['error', 2],
   '@stylistic/jsx-indent-props': ['error', 2],
+  '@stylistic/lines-around-comment': 'off',
   '@stylistic/dot-location': ['error', 'property'],
   '@stylistic/quotes': ['error', 'single', { avoidEscape: true }],
   '@stylistic/semi': ['error', 'always'],

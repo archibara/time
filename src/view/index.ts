@@ -1,4 +1,5 @@
 import {getQueryParamsData} from '../shared/queryParams';
+import {baseUrl} from '../shared/constants.ts';
 import {getDateParts} from '../shared/time';
 import {scheduleNotification} from './notifications.ts';
 import '../shared/styles.css';
@@ -42,8 +43,11 @@ scheduleNotification(
   data.title
 );
 
-
-if (!window.location.search) {
-  // navigate to /edit/ if no query params
-  window.location.href = './edit';
+/*
+ * currently user is on view (index.html) page
+ * let's redirect to edit page if no query params
+ * add guard to prevent infinite loop if something goes wrong
+ */
+if (!window.location.search && !window.location.pathname.endsWith('/edit')) {
+  window.location.href = baseUrl + '/edit';
 }

@@ -1,4 +1,4 @@
-import {pageAlias, queryParameterAlias} from './constants.ts';
+import {queryParameterAlias} from './constants.ts';
 import {QueryParamsData} from './types.ts';
 
 const parseDate = (date: string): Date | null => {
@@ -37,7 +37,6 @@ export const getQueryParamsData = (search = window.location.search): QueryParams
   const data: QueryParamsData = {
     endDate: new Date(Date.now() + addMs),
     title: 'Time',
-    page: 'edit',
   };
 
   for (const qKey of params.keys()) {
@@ -54,13 +53,6 @@ export const getQueryParamsData = (search = window.location.search): QueryParams
       }
       case 'title': {
         data.title = stringValue;
-        break;
-      }
-      case 'page': {
-        data.page = parseAlias(
-          stringValue,
-          pageAlias
-        ) ?? data.page;
         break;
       }
     }

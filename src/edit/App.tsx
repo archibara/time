@@ -1,95 +1,42 @@
 import {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
 import {getQueryParamsData} from '../shared/queryParams';
-import {queryParameterAlias} from '../shared/queryParams/constants.ts';
+import {baseUrl} from '../shared/constants.ts';
 import {useDebouncedValue} from './useDebouncedValue.ts';
-
-const sandbox = import.meta.env.DEV
-  ? undefined
-  // use all restrictions in production
-  : 'allow-scripts';
-
-const getViewBaseUrl = (): string => {
-  const url = new URL(window.location.href);
-  let path = url.pathname;
-  // add ending slash if it doesn't exist
-  if (!path.endsWith('/')) {
-    path += '/';
-  }
-  path = path.split('/')
-    // hide empty parts
-    .filter(Boolean)
-    // remove last part (/edit)
-    .slice(
-      0,
-      -1
-    )
-    // convert to string
-    .join('/');
-  return `${url.origin}/${path}`;
-};
-
-const dateToDatetimeLocalString = (date: Date): string => {
-  const timezoneOffsetInMs = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() - timezoneOffsetInMs).toISOString()
-    .slice(
-      0,
-      16
-    );
-};
-
-const getViewSearch = (title: string, endDate: Date): string => [
-  [
-    queryParameterAlias.title[0],
-    title,
-  ],
-  [
-    queryParameterAlias.endDate[0],
-    dateToDatetimeLocalString(endDate),
-  ],
-]
-  .map((e) => e.join('='))
-  .join('&');
-
-// set same query string to this window to persist the state
-const setSearchParams = (search: string) => {
-  const url = new URL(window.location.href);
-  url.search = search;
-  window.history.replaceState(
-    {},
-    '',
-    url.toString()
-  );
-};
+import {dateToDatetimeLocalString} from './utlis/dateToDatetimeLocalString.ts';
+import {queryParamsDataToSearchParams} from './utlis/queryParamsDataToSearchParams.ts';
+import {setSearchParams} from './utlis/setSearchParams.ts';
+import {sandbox} from './constants.ts';
 
 const App = () => {
   const [
-    {title, endDate},
-    setState,
+    queryParamsData,
+    setQueryParamsData,
   ] = useState(() => getQueryParamsData());
-  const [viewBaseUrl] = useState(() => getViewBaseUrl());
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const endDateString = dateToDatetimeLocalString(endDate);
-  const viewSearch = useDebouncedValue(
-    getViewSearch(
-      title,
-      endDate
-    ),
+  const endDateString = dateToDatetimeLocalString(queryParamsData.endDate);
+  const iframeSearchParams = useDebouncedValue(
+    queryParamsDataToSearchParams(queryParamsData),
     200
   );
-  const viewSrc = `${viewBaseUrl}?${viewSearch}`;
+  const iframeSrc = `${baseUrl}?${iframeSearchParams}`;
 
   useEffect(
     () => {
-      setSearchParams(viewSearch);
+      // set same query string to this window to persist the state
+      setSearchParams(iframeSearchParams);
     },
-    [viewSearch]
+    [iframeSearchParams]
   );
 
   const handleTitleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const title = e.target.value;
-      setState((state) => ({...state,
-        title}));
+      setQueryParamsData(
+        (state) => ({
+          ...state,
+          title,
+        })
+      );
     },
     []
   );
@@ -101,24 +48,28 @@ const App = () => {
       if (isNaN(date.getTime())) {
         return;
       }
-      setState((state) => ({...state,
-        endDate: date}));
+      setQueryParamsData(
+        (state) => ({
+          ...state,
+          endDate: date,
+        })
+      );
     },
     []
   );
 
   const handleView = useCallback(
     () => {
-      window.location.href = viewSrc;
+      window.location.href = iframeSrc;
     },
-    [viewSrc]
+    [iframeSrc]
   );
 
   const handleCopyLink = useCallback(
     () => {
-      navigator.clipboard.writeText(viewSrc).catch(alert);
+      navigator.clipboard.writeText(iframeSrc).catch(alert);
     },
-    [viewSrc]
+    [iframeSrc]
   );
 
 
@@ -134,7 +85,7 @@ const App = () => {
 
         <input
           className='input'
-          defaultValue={title}
+          defaultValue={queryParamsData.title}
           type='text'
           onChange={handleTitleChange}
         />
@@ -174,8 +125,9 @@ const App = () => {
         className='iframe'
         ref={iframeRef}
         rel='noopener noreferrer'
+        // eslint-disable-next-line react-dom/no-missing-iframe-sandbox
         sandbox={sandbox}
-        src={viewSrc}
+        src={iframeSrc}
       />
     </>
   );
