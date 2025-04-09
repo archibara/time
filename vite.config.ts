@@ -1,6 +1,6 @@
 import {ConfigEnv, defineConfig, loadEnv} from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import {vitePluginPwa} from './src/server/vite-plugin-pwa';
+// import {vitePluginPwa} from './src/server/vite-plugin-pwa';
 
 type ServerEnv = {
   SERVER_ALLOWED_HOSTS: string;
@@ -23,7 +23,7 @@ export default (params: ConfigEnv) => {
     },
     plugins: [
       react(),
-      vitePluginPwa,
+      // vitePluginPwa,
     ],
   });
 };
