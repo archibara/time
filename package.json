@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "preview": "vite preview",
+    "preview": "tsc -b && vite build && vite preview",
     "preview:ngrok": "tsc -b && vite build && vite preview -m ngrok --port 3000 & ngrok http 3000"
   },
   "dependencies": {

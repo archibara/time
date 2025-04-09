@@ -2,6 +2,12 @@ import {minimal2023Preset} from '@vite-pwa/assets-generator/config';
 import {VitePWA} from 'vite-plugin-pwa';
 
 export const vitePluginPwa = VitePWA({
+  workbox: {
+    // by default use edit.html
+    navigateFallback: '/time/edit.html',
+    // TODO: fix notifications:
+    // importScripts: ['./src/view/notifications-sw.js'],
+  },
   pwaAssets: {
     preset: {
       ...minimal2023Preset,

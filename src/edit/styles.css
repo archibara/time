@@ -16,6 +16,11 @@
     }
 }
 
+body {
+    background: var(--C_1);
+    color: var(--C_3);
+}
+
 #root {
     height: 100%;
     display: flex;
@@ -32,7 +37,7 @@
 
 .form {
     padding: var(--l);
-    background: #33333333;
+    background: var(--C_0);
     margin: var(--xl) var(--auto);
     border-radius: var(--l);
 }
@@ -44,10 +49,11 @@
 }
 
 .input {
+    background: var(--C_3);
     width: 100%;
     padding: var(--m);
     margin: var(--s) 0 var(--m) 0;
-    border: 2px solid #333;
+    border: 2px solid var(--C_4);
     border-radius: var(--m);
 }
 
@@ -59,9 +65,9 @@
 }
 
 .btn-view {
-    background: #333;
-    border: 0;
-    color: #fff;
+    background: var(--C_3);
+    border: 2px solid var(--C_4);
+    color: var(--C_0);
     cursor: pointer;
     display: block;
     font-size: 1.25em;
@@ -70,6 +76,11 @@
     border-radius: var(--m);
     padding: var(--m) var(--l);
     flex: 1;
+    letter-spacing: 0.1em;
+}
+
+.btn-view:hover {
+    border: 2px solid var(--C_2);
 }
 
 .btn-copy-link {
